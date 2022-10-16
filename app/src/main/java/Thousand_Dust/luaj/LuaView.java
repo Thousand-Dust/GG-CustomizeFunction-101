@@ -1,6 +1,7 @@
-package luaj;
+package Thousand_Dust.luaj;
 
-import android.pro.DrawView;
+import Thousand_Dust.DrawView;
+import luaj.LuaValue;
 
 public class LuaView extends LuaValue {
 

@@ -1,4 +1,4 @@
-package android.pro;
+package Thousand_Dust;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-
 import luaj.o;
 
 public class MyWindowManager {
@@ -23,11 +22,22 @@ public class MyWindowManager {
         }
     }
 
+    public static boolean isInstanceEmpty() {
+        return mWm == null;
+    }
+
     public static MyWindowManager getInstance() {
         if (mWm == null) {
             throw new o("无障碍功能可能未开启");
         }
         return mWm;
+    }
+
+    public static void destInstance() {
+        mWm.removeAllViews();
+        mWm.wm.removeView(mWm.viewGroup);
+        mWm = null;
+        System.gc();
     }
 
     private Handler handler = new Handler(Looper.getMainLooper());

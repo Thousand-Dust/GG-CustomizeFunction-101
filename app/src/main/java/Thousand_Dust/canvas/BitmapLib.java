@@ -1,10 +1,10 @@
-package android.canvas;
+package Thousand_Dust.canvas;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
-import luaj.LuaBitmap;
+import Thousand_Dust.luaj.LuaBitmap;
 import luaj.LuaTable;
 import luaj.LuaValue;
 import luaj.ap;

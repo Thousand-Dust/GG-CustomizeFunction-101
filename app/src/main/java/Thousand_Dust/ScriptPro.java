@@ -1,10 +1,10 @@
-package android.pro;
+package Thousand_Dust;
 
-import android.canvas.BitmapLib;
-import android.canvas.CanvasLib;
-import android.canvas.PaintLib;
+import Thousand_Dust.canvas.BitmapLib;
+import Thousand_Dust.canvas.CanvasLib;
+import Thousand_Dust.canvas.PaintLib;
 import android.content.Context;
-import android.canvas.ViewLib;
+import Thousand_Dust.canvas.ViewLib;
 
 import luaj.Globals;
 import luaj.f;
@@ -27,9 +27,9 @@ public class ScriptPro extends TwoArgFunction {
     @Override
     public LuaValue a(LuaValue arg1, LuaValue env) {
         LuaTable tab = new LuaTable();
-        tab.c("VERSION", BaseInfo.getVersion());
-        tab.c("UPTIME", BaseInfo.getUpdateTime());
-        tab.c("AUTHOR", BaseInfo.getAuthor());
+        tab.c("VERSION", DevInfo.getVersion());
+        tab.c("UPTIME", DevInfo.getUpdateTime());
+        tab.c("AUTHOR", DevInfo.getAuthor());
 //        tab.a("killMTP", new closeMTP());
 //        tab.a("execCmd", new execCmd());
 //        tab.a("toast",new toast());

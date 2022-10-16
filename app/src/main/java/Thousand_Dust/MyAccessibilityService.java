@@ -1,6 +1,8 @@
-package android.pro;
+package Thousand_Dust;
 
 import android.accessibilityservice.AccessibilityService;
+import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 
@@ -13,12 +15,22 @@ public class MyAccessibilityService extends AccessibilityService {
     }
 
     @Override
+    public boolean onUnbind(Intent intent) {
+        if (!MyWindowManager.isInstanceEmpty()) {
+            MyWindowManager.destInstance();
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+            MyWindowManager.newInstance(Tools.getContext());
+        }
+        return super.onUnbind(intent);
+    }
+
+    @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        Log.d("MyAccessibilityService", "onAccessibilityEvent: ");
+
     }
 
     @Override
     public void onInterrupt() {
-        Log.d("MyAccessibilityService", "onInterrupt: ");
     }
 }
