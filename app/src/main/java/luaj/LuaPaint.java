@@ -8,17 +8,17 @@ public class LuaPaint extends LuaValue {
     public static LuaValue s_metatable;
     
     @Override
-    public int type() {
+    public int e_() {
         return 13;
     }
 
     @Override
-    public String typename() {
+    public String f_() {
         return "paint";
     }
 
     @Override
-    public LuaValue getmetatable() {
+    public LuaValue i() {
         return s_metatable;
     }
     

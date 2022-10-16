@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Closeable;
-import android.ext.ThreadManager;
+import android.ext.rx;
 import android.graphics.Bitmap;
 import android.os.StrictMode;
 import java.net.URL;
@@ -22,18 +22,7 @@ import android.graphics.PixelFormat;
 public class Tools
 {
     public static Context getContext(){
-        return android.ext.Tools.getContext();
-    }
-    
-    public void toast(final String str)
-    {
-        Runnable run = new Runnable(){
-            @Override
-            public void run() {
-                Toast.makeText(getContext(),str,Toast.LENGTH_SHORT).show();
-            }
-        };
-        ThreadManager.runOnUiThread(run);
+        return android.ext.Tools.e();
     }
     
     /**

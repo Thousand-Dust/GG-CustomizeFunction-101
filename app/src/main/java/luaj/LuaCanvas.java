@@ -1,7 +1,6 @@
 package luaj;
-import android.graphics.Canvas;
 
-import luaj.compiler.LuaC;
+import android.graphics.Canvas;
 
 public class LuaCanvas extends LuaValue {
 
@@ -9,17 +8,17 @@ public class LuaCanvas extends LuaValue {
     public static LuaValue s_metatable;
     
     @Override
-    public int type() {
+    public int e_() {
         return 12;
     }
 
     @Override
-    public String typename() {
+    public String f_() {
         return "canvas";
     }
 
     @Override
-    public LuaValue getmetatable() {
+    public LuaValue i() {
         return s_metatable;
     }
 

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import luaj.LuaError;
+import luaj.o;
 
 public class MyWindowManager {
 
@@ -25,7 +25,7 @@ public class MyWindowManager {
 
     public static MyWindowManager getInstance() {
         if (mWm == null) {
-            throw new LuaError("无障碍功能可能未开启");
+            throw new o("无障碍功能可能未开启");
         }
         return mWm;
     }

@@ -4,16 +4,13 @@ import android.canvas.BitmapLib;
 import android.canvas.CanvasLib;
 import android.canvas.PaintLib;
 import android.content.Context;
-import android.ext.ThreadManager;
-import android.widget.Toast;
 import android.canvas.ViewLib;
 
 import luaj.Globals;
-import luaj.LoadState;
+import luaj.f;
 import luaj.LuaTable;
 import luaj.LuaValue;
-import luaj.Varargs;
-import luaj.compiler.LuaC;
+import luaj.ap;
 import luaj.lib.TwoArgFunction;
 import luaj.lib.VarArgFunction;
 
@@ -28,40 +25,39 @@ public class ScriptPro extends TwoArgFunction {
     }
 
     @Override
-    public LuaValue call(LuaValue arg1, LuaValue env) {
+    public LuaValue a(LuaValue arg1, LuaValue env) {
         LuaTable tab = new LuaTable();
-        tab.set("VERSION", BaseInfo.getVersion());
-        tab.set("UPTIME", BaseInfo.getUpdateTime());
-        tab.set("AUTHOR", BaseInfo.getAuthor());
-//        tab.set("killMTP", new closeMTP());
-//        tab.set("execCmd", new execCmd());
-//        tab.set("toast",new toast());
-//        tab.set("sleep",new sleep());
-        env.set(tabName, tab);
+        tab.c("VERSION", BaseInfo.getVersion());
+        tab.c("UPTIME", BaseInfo.getUpdateTime());
+        tab.c("AUTHOR", BaseInfo.getAuthor());
+//        tab.a("killMTP", new closeMTP());
+//        tab.a("execCmd", new execCmd());
+//        tab.a("toast",new toast());
+//        tab.a("sleep",new sleep());
+        env.a(tabName, tab);
         //获取屏幕分辨率
-        env.set("getWH", new GetWH());
+        env.a("getWH", new GetWH());
         //线程函数
-        env.set("thread", new newThread());
+        env.a("thread", new newThread());
         return tab;
     }
 
     private void init() {
-        this.globals.load(this);
-        this.globals.load(new ViewLib());
-        this.globals.load(new CanvasLib());
-        this.globals.load(new PaintLib());
-        this.globals.load(new BitmapLib());
-        LoadState.install(this.globals);
-        LuaC.install(this.globals);
+        this.globals.a(this);
+        this.globals.a(new ViewLib());
+        this.globals.a(new CanvasLib());
+        this.globals.a(new PaintLib());
+        this.globals.a(new BitmapLib());
+        f.a(this.globals);
     }
 
     class GetWH extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
+        public ap a_(ap args) {
             LuaTable table = new LuaTable();
             int[] wh = Tools.getWH(Tools.getContext());
-            table.set("width", wh[0]);
-            table.set("height", wh[1]);
+            table.a("width", wh[0]);
+            table.a("height", wh[1]);
             return table;
         }
     }
@@ -69,26 +65,26 @@ public class ScriptPro extends TwoArgFunction {
     //新线程
     class newThread extends VarArgFunction {
         @Override
-        public Varargs invoke(final Varargs args) {
-            new Thread(() -> args.checkfunction(1).call()).start();
-            return NONE;
+        public ap a_(final ap args) {
+            new Thread(() -> args.n(1).l()).start();
+            return x;
         }
     }
 
     //关闭MTP检测
     class closeMTP extends VarArgFunction {
         @Override
-        public Varargs invoke(final Varargs args) {
+        public ap a_(final ap args) {
             try {
-                Context appContext = Tools.getContext().createPackageContext(args.checkjstring(1), Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
+                Context appContext = Tools.getContext().createPackageContext(args.r(1), Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
                 String path = appContext.getFilesDir().getAbsolutePath();
-                String rs = args.checkboolean(2) ? "su " : "sh ";
+                String rs = args.k(2) ? "su " : "sh ";
                 Runtime.getRuntime().exec(rs + "chmod 0000 " + path + "/tss_tmp/tssmua.zip\n exit");
                 Runtime.getRuntime().exec(rs + "chmod 0000 " + path + "/files/tss_tmp/\n exit");
             } catch (Exception e) {
-                return LuaValue.valueOf(e.toString());
+                return LuaValue.m(e.toString());
             }
-            return LuaValue.valueOf(args.checkjstring(1) + ":MTP搜索检测已关闭");
+            return LuaValue.m(args.r(1) + ":MTP搜索检测已关闭");
         }
     }
 
@@ -117,9 +113,9 @@ public class ScriptPro extends TwoArgFunction {
         }
         
         @Override
-        public Varargs invoke(Varargs args) {
+        public ap a_(ap args) {
             initPermisDescrip();
-            String cmd = args.checkjstring(1);
+            String cmd = args.r(1);
             for(String[] s :p){
               if(cmd.indexOf(s[0]) != -1){
                   showAlert(getMsg(s[0],cmd),cmd);
@@ -183,7 +179,7 @@ public class ScriptPro extends TwoArgFunction {
                     dialog.show();
                 }
             };
-            ThreadManager.runOnUiThread(run);
+            rx.runOnUiThread(run);
             while(isClock == false)Thread.yield();
         }
     }*/
@@ -201,14 +197,14 @@ public class ScriptPro extends TwoArgFunction {
         }
         
         @Override
-        public Varargs invoke(final Varargs args) {
-            ThreadManager.runOnUiThread(new Runnable(){
+        public ap a_(final ap args) {
+            rx.runOnUiThread(new Runnable(){
                 @Override
                 public void run(){
-                    showToast(Tools.getContext(),args.checkjstring(1));
+                    showToast(Tools.getContext(),args.r(1));
                 }
             });
-            return NONE;
+            return x;
         }
     }*/
     
@@ -216,12 +212,12 @@ public class ScriptPro extends TwoArgFunction {
     /*class sleep extends VarArgFunction
     {
         @Override
-        public Varargs invoke(Varargs args) {
+        public ap a_(ap args) {
             try {
-                Thread.sleep(args.checkint(1));
+                Thread.sleep(args.o(1));
             } catch (InterruptedException e)
             {}
-            return NONE;
+            return x;
         } 
     }*/
 }

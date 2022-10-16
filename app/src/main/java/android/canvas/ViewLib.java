@@ -11,7 +11,7 @@ import luaj.lib.TwoArgFunction;
 import luaj.LuaValue;
 import luaj.LuaTable;
 import luaj.lib.VarArgFunction;
-import luaj.Varargs;
+import luaj.ap;
 
 /**
  * @author Thousand-Dust
@@ -28,25 +28,25 @@ public class ViewLib extends TwoArgFunction {
     }
 
     @Override
-    public LuaValue call(LuaValue arg1, LuaValue env) {
-        globals = env.checkglobals();
-        env.set("newView", new newView());
-        env.set("removeAllView", new removeAllView());
+    public LuaValue a(LuaValue arg1, LuaValue env) {
+        globals = env.c();
+        env.a("newView", new newView());
+        env.a("removeAllView", new removeAllView());
 
         LuaTable view = new LuaTable();
         //调用Lua绘制函数更新绘制
-        view.set("invalidate", new invalidate());
+        view.a("invalidate", new invalidate());
         //显示绘制
-        view.set("show", new showDraw());
+        view.a("show", new showDraw());
         //删除绘制内容
-        view.set("close", new closeDraw());
+        view.a("close", new closeDraw());
 
-        if (!env.get("package").isnil()) {
-            env.get("package").get("loaded").set("view", view);
+        if (!env.j("package").F()) {
+            env.j("package").j("loaded").a("view", view);
         }
         if (LuaView.s_metatable == null) {
-            LuaTable mt = LuaValue.tableOf(
-                    new LuaValue[] { INDEX, view});
+            LuaTable mt = LuaValue.b(
+                    new LuaValue[] { D, view});
             LuaView.s_metatable = mt;
         }
 
@@ -55,7 +55,7 @@ public class ViewLib extends TwoArgFunction {
 
     class newView extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
+        public ap a_(ap args) {
             DrawView drawView = new DrawView(Tools.getContext(), globals);
             MyWindowManager.getInstance().addView(drawView);
             return LuaView.valueOf(drawView);
@@ -64,37 +64,37 @@ public class ViewLib extends TwoArgFunction {
 
     class invalidate extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            LuaView.checkview(args.arg(1)).postInvalidate();
-            return NONE;
+        public ap a_(ap args) {
+            LuaView.checkview(args.c(1)).postInvalidate();
+            return x;
         }
     }
 
     class showDraw extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs varargs) {
-            DrawView luaView = LuaView.checkview(varargs.arg(1));
-            luaView.setDrawFun(varargs.checkfunction(2));
-            luaView.start(varargs.optint(3, 60));
-            return LuaValue.NONE;
+        public ap a_(ap args) {
+            DrawView luaView = LuaView.checkview(args.c(1));
+            luaView.setDrawFun(args.n(2));
+            luaView.start(args.d(3, 60));
+            return LuaValue.x;
         }
     }
 
     class closeDraw extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs varargs) {
-            DrawView luaView = LuaView.checkview(varargs.arg(1));
+        public ap a_(ap args) {
+            DrawView luaView = LuaView.checkview(args.c(1));
             luaView.close();
             MyWindowManager.getInstance().removeView(luaView);
-            return LuaValue.NONE;
+            return LuaValue.x;
         }
     }
 
     private class removeAllView extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs varargs) {
+        public ap a_(ap args) {
             MyWindowManager.getInstance().removeAllViews();
-            return LuaValue.NONE;
+            return LuaValue.x;
         }
     }
 }

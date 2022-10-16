@@ -5,11 +5,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
 import luaj.LuaBitmap;
-import luaj.LuaError;
 import luaj.LuaTable;
 import luaj.LuaValue;
-import luaj.LuaView;
-import luaj.Varargs;
+import luaj.ap;
 import luaj.lib.TwoArgFunction;
 import luaj.lib.VarArgFunction;
 
@@ -19,17 +17,17 @@ import luaj.lib.VarArgFunction;
 public class BitmapLib extends TwoArgFunction {
 
     @Override
-    public LuaValue call(LuaValue arg1, LuaValue env) {
-        env.set("loadBitmap", new loadBitmap());
+    public LuaValue a(LuaValue arg1, LuaValue env) {
+        env.a("loadBitmap", new loadBitmap());
         LuaTable table = new LuaTable();
-        table.set("setWidth", new setWidth());
-        table.set("setHeight", new setHeight());
-        table.set("setWH", new setWH());
-        table.set("remove", new remove());
+        table.a("setWidth", new setWidth());
+        table.a("setHeight", new setHeight());
+        table.a("setWH", new setWH());
+        table.a("remove", new remove());
 
         if (LuaBitmap.s_metatable == null) {
-            LuaTable mt = LuaValue.tableOf(
-                    new LuaValue[] { INDEX, table});
+            LuaTable mt = LuaValue.b(
+                    new LuaValue[] { D, table});
             LuaBitmap.s_metatable = mt;
         }
 
@@ -38,53 +36,53 @@ public class BitmapLib extends TwoArgFunction {
 
     class loadBitmap extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            return LuaBitmap.valueOf(BitmapFactory.decodeFile(args.checkjstring(1)));
+        public ap a_(ap args) {
+            return LuaBitmap.valueOf(BitmapFactory.decodeFile(args.r(1)));
         }
     }
 
     class setWidth extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            Bitmap bitmap = LuaBitmap.checkbitmap(args.arg(1));
+        public ap a_(ap args) {
+            Bitmap bitmap = LuaBitmap.checkbitmap(args.c(1));
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             Matrix matrix = new Matrix();
-            matrix.postScale(width/args.tofloat(2), 1);
+            matrix.postScale(width/(float)args.m(2), 1);
             return LuaBitmap.valueOf(Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true));
         }
     }
 
     class setHeight extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            Bitmap bitmap = LuaBitmap.checkbitmap(args.arg(1));
+        public ap a_(ap args) {
+            Bitmap bitmap = LuaBitmap.checkbitmap(args.c(1));
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             Matrix matrix = new Matrix();
-            matrix.postScale(1, height/args.tofloat(2));
+            matrix.postScale(1, height/(float)args.m(2));
             return LuaBitmap.valueOf(Bitmap.createBitmap(bitmap, 0,0, width, height, matrix, true));
         }
     }
 
     class setWH extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            Bitmap bitmap = LuaBitmap.checkbitmap(args.arg(1));
+        public ap a_(ap args) {
+            Bitmap bitmap = LuaBitmap.checkbitmap(args.c(1));
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             Matrix matrix = new Matrix();
-            matrix.postScale(width/args.tofloat(2), height/args.tofloat(3));
+            matrix.postScale(width/(float)args.m(2), height/(float)args.m(3));
             return LuaBitmap.valueOf(Bitmap.createBitmap(bitmap, 0,0, width, height, matrix, true));
         }
     }
 
     class remove extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            Bitmap bitmap = LuaBitmap.checkbitmap(args.arg(1));
+        public ap a_(ap args) {
+            Bitmap bitmap = LuaBitmap.checkbitmap(args.c(1));
             bitmap.recycle();
-            return NONE;
+            return x;
         }
     }
 

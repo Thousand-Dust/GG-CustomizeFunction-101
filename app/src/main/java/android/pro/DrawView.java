@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 
 import luaj.Globals;
 import luaj.LuaCanvas;
-import luaj.LuaError;
+import luaj.o;
 import luaj.LuaFunction;
 import luaj.LuaValue;
 
@@ -55,7 +55,7 @@ public class DrawView extends View {
         bufBitmap = Bitmap.createBitmap(bitmap);
         canvas.setBitmap(bufBitmap);
         if (drawFun != null) {
-            drawFun.call(LuaCanvas.valueOf(canvas));
+            drawFun.a(LuaCanvas.valueOf(canvas));
         }
         super.postInvalidate();
     }
@@ -91,8 +91,8 @@ public class DrawView extends View {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace(globals.STDOUT);
-                android.ext.Tools.showToast("error: "+e.getMessage());
+                e.printStackTrace(globals.e);
+                android.ext.Tools.b("error: "+e.getMessage());
             } finally {
                 if (isStart) {
                     isStart = false;

@@ -5,9 +5,9 @@ import luaj.lib.TwoArgFunction;
 import luaj.LuaValue;
 import luaj.lib.VarArgFunction;
 import luaj.LuaTable;
-import luaj.Varargs;
+import luaj.ap;
 import android.graphics.Paint;
-import luaj.LuaError;
+import luaj.o;
 import android.graphics.Color;
 
 /**
@@ -16,28 +16,28 @@ import android.graphics.Color;
 public class PaintLib extends TwoArgFunction {
 
     @Override
-    public LuaValue call(LuaValue arg1, LuaValue env) {
+    public LuaValue a(LuaValue arg1, LuaValue env) {
 
-        env.set("newPaint", new newPaint());
+        env.a("newPaint", new newPaint());
 
         LuaTable paint = new LuaTable();
         //设置画笔笔触宽
-        paint.set("setWidth", new setWidth());
+        paint.a("setWidth", new setWidth());
         //设置画笔样式
-        paint.set("setStyle", new setStyle());
+        paint.a("setStyle", new setStyle());
         //设置画笔颜色
-        paint.set("setColor", new setColor());
+        paint.a("setColor", new setColor());
         //设置画笔画出的字符大小
-        paint.set("setTextSize", new setTextSize());
+        paint.a("setTextSize", new setTextSize());
         //设置抗锯齿
-        paint.set("setAntiAlias", new setAntiAlias());
+        paint.a("setAntiAlias", new setAntiAlias());
 
-        if (!env.get("package").isnil()) {
-            env.get("package").get("loaded").set("paint", paint);
+        if (!env.j("package").F()) {
+            env.j("package").j("loaded").a("paint", paint);
         }
         if (LuaPaint.s_metatable == null) {
-            LuaTable mt = LuaValue.tableOf(
-                    new LuaValue[] { INDEX, paint});
+            LuaTable mt = LuaValue.b(
+                    new LuaValue[] { D, paint});
             LuaPaint.s_metatable = mt;
         }
 
@@ -46,27 +46,27 @@ public class PaintLib extends TwoArgFunction {
 
     class newPaint extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
+        public ap a_(ap args) {
             return LuaPaint.valueOf(new Paint());
         }
     }
 
     class setWidth extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            LuaPaint.checkpaint(args.arg(1)).setStrokeWidth(args.checkint(2));
-            return NONE;
+        public ap a_(ap args) {
+            LuaPaint.checkpaint(args.c(1)).setStrokeWidth(args.o(2));
+            return x;
         }
     }
 
     class setStyle extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            LuaValue value = args.checkvalue(2);
+        public ap a_(ap args) {
+            LuaValue value = args.v(2);
 
             Paint.Style style;
             if (value instanceof LuaString) {
-                String styleStr = value.checkjstring();
+                String styleStr = value.y();
                 switch (styleStr) {
                     case "描边":
                         style = Paint.Style.STROKE;
@@ -79,10 +79,10 @@ public class PaintLib extends TwoArgFunction {
                         break;
 
                     default:
-                        throw new LuaError("未知的画笔类型");
+                        throw new o("未知的画笔类型");
                 }
             } else {
-                int styleNum = value.checkint();
+                int styleNum = value.v();
                 switch (styleNum) {
                     case 0:
                         //描边
@@ -98,37 +98,37 @@ public class PaintLib extends TwoArgFunction {
                         break;
 
                     default:
-                        throw new LuaError("未知的画笔类型");
+                        throw new o("未知的画笔类型");
                 }
             }
 
-            LuaPaint.checkpaint(args.arg(1)).setStyle(style);
+            LuaPaint.checkpaint(args.c(1)).setStyle(style);
 
-            return NONE;
+            return x;
         }
     }
 
     class setColor extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            LuaPaint.checkpaint(args.arg(1)).setColor(Color.parseColor(args.checkjstring(2)));
-            return NONE;
+        public ap a_(ap args) {
+            LuaPaint.checkpaint(args.c(1)).setColor(Color.parseColor(args.r(2)));
+            return x;
         }
     }
 
     class setTextSize extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            LuaPaint.checkpaint(args.arg(1)).setTextSize(args.tofloat(2));
-            return NONE;
+        public ap a_(ap args) {
+            LuaPaint.checkpaint(args.c(1)).setTextSize((float)args.m(2));
+            return x;
         }
     }
 
     class setAntiAlias extends VarArgFunction {
         @Override
-        public Varargs invoke(Varargs args) {
-            LuaPaint.checkpaint(args.arg(1)).setAntiAlias(args.checkboolean(2));
-            return NONE;
+        public ap a_(ap args) {
+            LuaPaint.checkpaint(args.c(1)).setAntiAlias(args.k(2));
+            return x;
         }
     }
 }

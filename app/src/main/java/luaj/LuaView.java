@@ -8,17 +8,17 @@ public class LuaView extends LuaValue {
     public static LuaValue s_metatable;
     
     @Override
-    public int type() {
+    public int e_() {
         return 10;
     }
 
     @Override
-    public String typename() {
+    public String f_() {
         return "view";
     }
 
     @Override
-    public LuaValue getmetatable() {
+    public LuaValue i() {
         return s_metatable;
     }
     
