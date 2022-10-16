@@ -63,7 +63,7 @@ public class CanvasLib extends TwoArgFunction {
             LuaCanvas.s_metatable = mt;
         }
 
-        return env;
+        return canvas;
     }
 
     class drawArc extends VarArgFunction {

@@ -14,12 +14,12 @@ import luaj.ap;
 import luaj.lib.TwoArgFunction;
 import luaj.lib.VarArgFunction;
 
-public class ScriptPro extends TwoArgFunction {
+public class ScriptLib extends TwoArgFunction {
 
     private Globals globals;
     private final String tabName = "pro";
 
-    public ScriptPro(Globals globals) {
+    public ScriptLib(Globals globals) {
         this.globals = globals;
         init();
     }
@@ -39,15 +39,15 @@ public class ScriptPro extends TwoArgFunction {
         env.a("getWH", new GetWH());
         //线程函数
         env.a("thread", new newThread());
-        return tab;
+        return env;
     }
 
     private void init() {
-        this.globals.a(this);
-        this.globals.a(new ViewLib());
-        this.globals.a(new CanvasLib());
-        this.globals.a(new PaintLib());
-        this.globals.a(new BitmapLib());
+        this.globals.F(this);
+        this.globals.F(new ViewLib());
+        this.globals.F(new CanvasLib());
+        this.globals.F(new PaintLib());
+        this.globals.F(new BitmapLib());
         f.a(this.globals);
     }
 
