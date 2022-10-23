@@ -201,7 +201,6 @@ public class ViewLib extends TwoArgFunction {
         @Override
         public ap a_(ap args) {
             DrawView luaView = LuaView.checkview(args.c(1));
-            luaView.close();
             MyWindowManager.getInstance().removeView(luaView);
             return LuaValue.x;
         }

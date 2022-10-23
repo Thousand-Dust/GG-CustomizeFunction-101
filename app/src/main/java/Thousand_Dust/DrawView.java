@@ -60,6 +60,12 @@ public class DrawView extends View {
         super.postInvalidate();
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        close();
+    }
+
     public void start(int fps) {
         refresh.fps = fps;
         if (!refresh.isStart) {
