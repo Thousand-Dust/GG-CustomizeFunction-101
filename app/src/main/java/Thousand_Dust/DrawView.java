@@ -20,7 +20,6 @@ public class DrawView extends View {
     private final Refresh refresh = new Refresh();
 
     private Paint paint;
-    private Bitmap bitmap;
     //缓冲图
     private Bitmap bufBitmap;
     //缓冲画布
@@ -33,10 +32,10 @@ public class DrawView extends View {
         this.globals = globals;
         paint = new Paint();
         int[] wh = Tools.getWH(context);
-        bitmap = Bitmap.createBitmap(wh[0], wh[1], Bitmap.Config.ARGB_8888);
         //防canvas的绘制内容画到缓冲图上
-        bufBitmap = Bitmap.createBitmap(bitmap);
+        bufBitmap = Bitmap.createBitmap(wh[0], wh[1], Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bufBitmap);
+        canvas.setBitmap(bufBitmap);
     }
 
     public void setDrawFun(LuaFunction drawFun) {
@@ -49,15 +48,14 @@ public class DrawView extends View {
     }
 
     @Override
-    public void postInvalidate() {
-        bufBitmap = Bitmap.createBitmap(bitmap);
-        canvas.setBitmap(bufBitmap);
+    public void invalidate() {
+        bufBitmap.eraseColor(0);
         if (drawFun != null) {
             canvas.save();
             drawFun.a(LuaCanvas.valueOf(canvas));
             canvas.restore();
         }
-        super.postInvalidate();
+        super.invalidate();
     }
 
     @Override

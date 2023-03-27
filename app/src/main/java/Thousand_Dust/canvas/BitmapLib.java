@@ -26,6 +26,9 @@ public class BitmapLib extends TwoArgFunction {
         table.a("getWH", new getWH());
         table.a("remove", new remove());
 
+        if (!env.j("package").F()) {
+            env.j("package").j("loaded").a("bitmap", table);
+        }
         if (LuaBitmap.s_metatable == null) {
             LuaTable mt = LuaValue.b(
                     new LuaValue[] { D, table});
