@@ -1,5 +1,7 @@
 package Thousand_Dust.canvas;
 
+import static Thousand_Dust.MyWindowManager.MAXIMUM_OBSCURING_OPACITY;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -32,16 +34,12 @@ public class ViewLib extends TwoArgFunction {
 
     private Globals globals;
 
-    public ViewLib() {
-        //android版本小于12直接显示悬浮窗
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-            MyWindowManager.newInstance(Tools.getContext());
-        }
-    }
-
     @Override
     public LuaValue a(LuaValue arg1, LuaValue env) {
         globals = env.c();
+        //强制关闭绘图无障碍
+        env.a("disDrawAcc", new disDrawAcc());
+
         env.a("newView", new newView());
         env.a("removeAllView", new removeAllView());
 
@@ -65,21 +63,26 @@ public class ViewLib extends TwoArgFunction {
         return env;
     }
 
+    class disDrawAcc extends VarArgFunction {
+        @Override
+        public ap a_(ap args) {
+            MyWindowManager.setAlpha(MAXIMUM_OBSCURING_OPACITY);
+            return LuaValue.x;
+        }
+    }
+
     class newView extends VarArgFunction {
-        private boolean isShowAlert = false;
         private boolean isPrint = false;
         @Override
         public ap a_(ap args) {
-            //android版本12及以上需要开启无障碍
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if (MyWindowManager.isInstanceEmpty()) {
+            if (MyWindowManager.isInstanceEmpty()) {
+                //android版本12及以上需要开启无障碍
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && MyWindowManager.getAlpha() > MAXIMUM_OBSCURING_OPACITY) {
                     showPermissionAlert();
+                } else {
+                    showOrdinaryAlert();
                 }
-            } else if (!isShowAlert) {
-                showOrdinaryAlert();
-                isShowAlert = true;
             }
-
             DrawView drawView = new DrawView(Tools.getContext(), globals);
             MyWindowManager.getInstance().addView(drawView);
             return LuaView.valueOf(drawView);
@@ -108,6 +111,7 @@ public class ViewLib extends TwoArgFunction {
                 ab.setView(devText);
                 ab.setCancelable(false);
                 ab.setPositiveButton("同意", (p1, p2) -> {
+                    MyWindowManager.newInstance(Tools.getContext());
                     result[1] = true;
                 });
                 ab.setNegativeButton("拒绝", (p1, p2) -> {
@@ -153,7 +157,7 @@ public class ViewLib extends TwoArgFunction {
                 final AlertDialog.Builder ab = new AlertDialog.Builder(Tools.getContext());
                 ab.setTitle("权限请求");
                 ab.setMessage("脚本即将在屏幕上绘图\n" +
-                        "但因为您的Android设备版本为12或以上，需要开启无障碍\n" +
+                        "但因为您的Android设备版本为12或以上，需要开启无障碍（或调用函数\"disDrawAcc()\"）\n" +
                         "同意跳转权限页面，拒绝结束脚本。");
                 ab.setView(devText);
                 ab.setCancelable(false);
