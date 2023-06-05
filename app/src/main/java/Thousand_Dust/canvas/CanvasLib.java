@@ -71,7 +71,7 @@ public class CanvasLib extends TwoArgFunction {
         public ap a_(ap args) {
             Canvas canvas = LuaCanvas.checkcanvas(args.c(1));
             LuaTable table = args.t(2);
-            RectF rectF = new RectF((float)table.m(1), (float)table.m(2), (float)table.m(3), (float)table.m(4));
+            RectF rectF = new RectF((float)table.c_(1).x(), (float)table.c_(2).x(), (float)table.c_(3).x(), (float)table.c_(4).x());
             canvas.drawArc(rectF, (float)args.m(3), (float)args.m(4), args.k(5), LuaPaint.checkpaint(args.c(6)));
             return x;
         }
